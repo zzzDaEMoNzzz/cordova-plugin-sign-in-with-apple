@@ -6,21 +6,35 @@
   <description>Sign in with Apple</description>
   <license>MIT</license>
 
-  <keywords>cordova,ios,apple,sign in with apple</keywords>
+  <keywords>cordova,ios,android,apple,sign in with apple</keywords>
   <repo>https://github.com/twogate/cordova-plugin-sign-in-with-apple.git</repo>
   <issue>https://github.com/twogate/cordova-plugin-sign-in-with-apple/issues</issue>
-
-  <engines>
-    <engine name="cordova" version=">=8.0.0"/>
-    <engine name="cordova-ios" version=">=4.5.0"/>
-    <!--<engine name="apple-ios" version=">=13.0" />-->
-  </engines>
 
   <js-module src="www/sign-in-with-apple.js" name="SignInWithApple">
     <clobbers target="cordova.plugins.SignInWithApple" />
   </js-module>
-  <platform name="ios">
 
+  <engines>
+    <engine name="cordova" version=">=9.0.0" />
+    <engine name="cordova-android" version=">=9.0.0"/>
+    <engine name="cordova" version=">=8.0.0"/>
+    <engine name="cordova-ios" version=">=4.5.0"/>
+  </engines>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SignInWithApple">
+        <param name="android-package" value="org.yorc.plugin.SignInWithApple"/>
+      </feature>
+    </config-file>
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.INTERNET" />
+    </config-file>
+    <source-file src="src/android/SignInWithApple.kt" target-dir="app/src/main/kotlin/org/yorc/plugin" />
+    <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference"/>
+  </platform>
+
+  <platform name="ios">
     <config-file target="config.xml" parent="/*">
       <feature name="SignInWithApple">
         <param name="ios-package" value="SignInWithApple" />
@@ -28,20 +42,17 @@
       </feature>
     </config-file>
     <framework src="AuthenticationServices.framework" />
-    <!--<dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>-->
     <source-file src="src/ios/SignInWithApple.h" />
     <source-file src="src/ios/SignInWithApple.m" />
-
     <config-file parent="com.apple.developer.applesignin" target="*/Entitlements-Debug.plist">
       <array>
         <string>Default</string>
       </array>
-		</config-file>
+	</config-file>
     <config-file parent="com.apple.developer.applesignin" target="*/Entitlements-Release.plist">
       <array>
         <string>Default</string>
       </array>
     </config-file>
-<!--<hook type="after_prepare" src="scripts/after_prepare.js" />-->
   </platform>
 </plugin>

@@ -8,16 +8,52 @@ This plugin only supports iOS >= 13.
 ### Plugin installation
 
 ```
-cordova plugin add cordova-plugin-sign-in-with-apple
+cordova plugin add https://github.com/zzzDaEMoNzzz/cordova-plugin-sign-in-with-apple.git
 ```
 
-or
+# Usage android
+**android needs a backend [like here](https://github.com/johncodeos-blog/SignInWithAppleBackendServer)**
 
+Add to config.xml
 ```
-cordova plugin add https://github.com/twogate/cordova-plugin-sign-in-with-apple.git
+<preference name="GradlePluginKotlinEnabled" value="true" />
 ```
 
-# Usage
+in js
+```javascript
+window.cordova.plugins.SignInWithApple.signin(
+  {
+    requestedScopes: [0, 1],
+    clientId: "your.app.client.id",
+    redirectUri: "https://example.com/apple_redirect_url/"
+  },
+  function(succ){
+    console.log(succ)
+    alert(JSON.stringify(succ))
+  },
+  function(err){
+    console.error(err)
+    console.log(JSON.stringify(err))
+  }
+)
+```
+
+return example
+```
+access_token: String
+expires_in: Number
+id_token: String
+refresh_token: String
+token_type: String
+user?: {
+    firstName: String
+    middleName: String
+    lastName: String
+    email: String
+}
+```
+
+# Usage ios
 You should enable **Sign in with Apple capability** in Xcode. (project file -> Capabilities Tab -> Turn on "SignIn With Apple")
 
 ```javascript
